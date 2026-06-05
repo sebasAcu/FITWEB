@@ -89,16 +89,28 @@ export default function Home() {
           className="w-full flex flex-col items-center gap-3"
         >
           {session ? (
-            <Link href="/rutina" className="w-full">
-              <motion.button
-                whileHover={{ scale: 1.02, filter: "brightness(1.12)" }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full py-5 rounded-2xl font-black text-lg tracking-[2px] uppercase bg-[#B7FF3C] text-[#050505] shadow-[0_0_40px_#B7FF3C44] flex items-center justify-center gap-3"
-              >
-                <Dumbbell className="w-5 h-5" />
-                Registrar Rutina
-              </motion.button>
-            </Link>
+            <div className="w-full flex flex-col gap-3">
+              <Link href="/planner" className="w-full">
+                <motion.button
+                  whileHover={{ scale: 1.02, filter: "brightness(1.12)" }}
+                  whileTap={{ scale: 0.97 }}
+                  className="w-full py-5 rounded-2xl font-black text-lg tracking-[2px] uppercase bg-[#B7FF3C] text-[#050505] shadow-[0_0_40px_#B7FF3C44] flex items-center justify-center gap-3"
+                >
+                  <Dumbbell className="w-5 h-5" />
+                  Mi plan semanal
+                </motion.button>
+              </Link>
+              <Link href="/rutina" className="w-full">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="w-full py-4 rounded-2xl font-bold text-sm tracking-wider border border-white/10 text-white/60 hover:border-[#B7FF3C]/40 hover:text-[#B7FF3C] transition-all flex items-center justify-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Crear rutina ahora
+                </motion.button>
+              </Link>
+            </div>
           ) : (
             <motion.button
               whileHover={{ scale: 1.02, filter: "brightness(1.12)" }}
