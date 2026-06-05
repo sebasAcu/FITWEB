@@ -1,9 +1,12 @@
 import Groq from "groq-sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { logToSheet } from "@/lib/sheets";
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(req: NextRequest) {
+  const session = await auth();
   const { goal, type } = await req.json();
   if (!goal?.trim()) {
     return NextResponse.json({ error: "Falta el objetivo" }, { status: 400 });
@@ -66,6 +69,12 @@ ${rules}`,
 
   try {
     const json = JSON.parse(text.trim());
+    await logToSheet(
+      session?.user?.name ?? "Anónimo",
+      session?.user?.email ?? "Sin email",
+      "Creó rutina",
+      `${goal} (${type === "home" ? "Casa" : "Gym"})`
+    );
     return NextResponse.json(json);
   } catch {
     const match = text.match(/\{[\s\S]*\}/);
