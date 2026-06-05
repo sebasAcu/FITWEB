@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { logToSheet } from "@/lib/sheets";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -12,6 +11,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: { signIn: "/signin" },
   callbacks: {
     async signIn({ user }) {
+      const { logToSheet } = await import("@/lib/sheets");
       await logToSheet(
         user.name ?? "Sin nombre",
         user.email ?? "Sin email",
