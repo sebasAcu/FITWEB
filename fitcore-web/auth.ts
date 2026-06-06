@@ -14,6 +14,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       name: "next-auth.pkce.code_verifier",
       options: { httpOnly: true, sameSite: "none", path: "/", secure: true },
     },
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: { httpOnly: true, sameSite: "none", path: "/", secure: true },
+    },
+    callbackUrl: {
+      name: "next-auth.callback-url",
+      options: { httpOnly: true, sameSite: "none", path: "/", secure: true },
+    },
+    state: {
+      name: "next-auth.state",
+      options: { httpOnly: true, sameSite: "none", path: "/", secure: true },
+    },
   },
   callbacks: {
     async signIn({ user }) {
