@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+import { findUser, hashPassword } from "@/lib/users";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
@@ -7,6 +9,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    Credentials({
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Contraseña", type: "password" },
+      },
+      async authorize(credentials) {
+        const user = await findUser(credentials.email as string);
+        if (!user) return null;
+        if (user.passwordHash !== hashPassword(credentials.password as string)) return null;
+        return { id: user.email, email: user.email, name: user.name };
+      },
     }),
   ],
   pages: { signIn: "/signin" },
