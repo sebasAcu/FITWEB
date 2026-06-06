@@ -9,6 +9,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   pages: { signIn: "/signin" },
+  cookies: {
+    pkceCodeVerifier: {
+      name: "next-auth.pkce.code_verifier",
+      options: { httpOnly: true, sameSite: "none", path: "/", secure: true },
+    },
+  },
   callbacks: {
     async signIn({ user }) {
       const { logToSheet } = await import("@/lib/sheets");
